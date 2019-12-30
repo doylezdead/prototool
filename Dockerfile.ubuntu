@@ -28,7 +28,8 @@ RUN curl -sSL \
   -o /tmp/grpc-gw-src.tar.gz && \
   cd /tmp && tar -xf grpc-gw-src.tar.gz && \
   mkdir -p /usr/local/include/google/api && \
-  mv /tmp/grpc-gateway-${GRPC_GATEWAY_VERSION}/third_party/googleapis/google/api /usr/local/include/google
+  mv /tmp/grpc-gateway-${GRPC_GATEWAY_VERSION}/third_party/googleapis/google/api /usr/local/include/google && \
+  mv /tmp/grpc-gateway-${GRPC_GATEWAY_VERSION}/protoc-gen-swagger /usr/local/include/
 
 ENV GRPC_WEB_VERSION=1.0.4
 RUN curl -sSL \
