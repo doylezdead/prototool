@@ -85,7 +85,7 @@ FROM swift:latest
 
 RUN apt-get update && apt-get install -y curl
 
-RUN cd /tmp && curl -sSL https://github.com/grpc/grpc-swift/archive/1.0.0-alpha.8.tar.gz | tar xvz
+RUN cd /tmp && curl -sSL https://github.com/grpc/grpc-swift/archive/1.0.0-alpha.11.tar.gz | tar xvz
 RUN cd /tmp/grpc-swift* && make plugins
 RUN cd /tmp/grpc-swift* && \
   mv protoc-gen-swift /usr/local/bin && \
