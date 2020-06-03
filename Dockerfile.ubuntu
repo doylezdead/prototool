@@ -85,7 +85,7 @@ FROM swift:latest
 
 RUN apt-get update && apt-get install -y curl
 
-RUN cd /tmp && curl -sSL https://github.com/grpc/grpc-swift/archive/1.0.0-alpha.8.tar.gz | tar xvz
+RUN cd /tmp && curl -sSL https://github.com/grpc/grpc-swift/archive/1.0.0-alpha.11.tar.gz | tar xvz
 RUN cd /tmp/grpc-swift* && make plugins
 RUN cd /tmp/grpc-swift* && \
   mv protoc-gen-swift /usr/local/bin && \
@@ -103,6 +103,10 @@ COPY --from=go-builder /usr/local/lib/libprotoc.so.19 /usr/local/lib/libprotoc.s
 COPY --from=go-builder /tmp/grpc/bins/opt /usr/bin
 COPY --from=go-builder /usr/local/bin /usr/local/bin
 COPY --from=go-builder /usr/local/include /usr/include
+
+# Add Imagine Root Certificate
+COPY var/ImagineFinancialRootCA.crt /usr/local/share/ca-certificates
+RUN /usr/sbin/update-ca-certificates --fresh
 
 # update dynamic linker bindings
 RUN ldconfig
