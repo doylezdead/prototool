@@ -1,6 +1,6 @@
 FROM golang:1.12.4-alpine3.9 as builder
 
-RUN apk add --update --no-cache build-base curl git upx && \
+RUN apk add --update --no-cache build-base curl git upx go && \
   rm -rf /var/cache/apk/*
 
 ENV GOLANG_PROTOBUF_VERSION=1.3.1 \
@@ -18,11 +18,11 @@ ENV GRPC_GATEWAY_VERSION=1.8.5
 RUN curl -sSL \
   https://github.com/grpc-ecosystem/grpc-gateway/releases/download/v${GRPC_GATEWAY_VERSION}/protoc-gen-grpc-gateway-v${GRPC_GATEWAY_VERSION}-linux-x86_64 \
   -o /usr/local/bin/protoc-gen-grpc-gateway && \
-  curl -sSL \
-  https://github.com/grpc-ecosystem/grpc-gateway/releases/download/v${GRPC_GATEWAY_VERSION}/protoc-gen-swagger-v${GRPC_GATEWAY_VERSION}-linux-x86_64 \
-  -o /usr/local/bin/protoc-gen-swagger && \
-  chmod +x /usr/local/bin/protoc-gen-grpc-gateway && \
-  chmod +x /usr/local/bin/protoc-gen-swagger
+  chmod +x /usr/local/bin/protoc-gen-grpc-gateway
+
+ENV GOBIN=/usr/local/bin
+ENV GO111MODULE=on
+RUN go get github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger@6dd8bd6afbea6dc2c68128d17a04a276e07970b2
 
 ENV GRPC_WEB_VERSION=1.0.4
 RUN curl -sSL \
